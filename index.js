@@ -30,6 +30,13 @@ app.get('/api/:date', (req, res) => {
   let timestamp;
   let utcDate;
 
+  if (!dateString) {
+    const timestamp = new Date();
+    const utc = new Date(timestamp).toUTCString();
+
+    return res.json({unix: timestamp, utc: utc})
+  }
+
   if (/^\d{13}$/.test(dateString)) {
     // Jika tanggal dalam format Unix timestamp dalam milidetik
     timestamp = parseInt(dateString);
@@ -47,7 +54,9 @@ app.get('/api/:date', (req, res) => {
     const utcDate = new Date(timestamp).toUTCString();
     res.json({ unix: timestamp, utc: utcDate });
   } else {
-    res.json({ error: 'Invalid date' });
+    const unix = new Date();
+    const utc = new Date(unix).toUTCString();
+    res.json({unix, utc})
   }
 });
 
