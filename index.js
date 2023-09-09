@@ -24,18 +24,20 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-app.get('/api/:date', (req, res) => {
+app.get('/api/:date?', (req, res) => {
   const dateString = req.params.date;
 
   let timestamp;
   let utcDate;
 
   if (!dateString) {
-    const timestamp = new Date();
+    const timestamp = new Date().getTime();
     const utc = new Date(timestamp).toUTCString();
 
     return res.json({unix: timestamp, utc: utc})
   }
+
+  
 
   if (/^\d{13}$/.test(dateString)) {
     // Jika tanggal dalam format Unix timestamp dalam milidetik
@@ -59,6 +61,8 @@ app.get('/api/:date', (req, res) => {
     res.json({unix, utc})
   }
 });
+
+
 
 
 
